@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stress-o-meter</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Baloo Thambi:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Days One:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Coda:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Chivo:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM Sans:wght@700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Kavoon:wght@400&display=swap"
+    />
+    <style>
+
+:root{
+    --assigned:var(--assigned);
+    --completed:var(--completed);
+
+      /* fonts */
+  --font-kavoon: Kavoon;
+  --font-dm-sans: "DM Sans";
+  --font-baloo-thambi: "Baloo Thambi";
+  --font-chivo: Chivo;
+  --font-coda: Coda;
+  --font-days-one: "Days One";
+
+  /* font sizes */
+  --font-size-xs-9: 11.9px;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-darkslategray: #313131;
+  --color-gold: #ffd705;
+  --color-black: #000;
+
+  /* border radiuses */
+  --br-5xs: 8px;
+}
+
+
+.popup .overlay{
+          position: fixed;
+          top: 0px;
+          left: 0px;
+          width: 2000px;
+          max-width: 100%;
+          height: 2000px;
+          background: rgba(0, 0, 0, 0.7);
+          z-index: 1;
+          display: none;
+        }
+
+        .popup .content
+        {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: #fff;
+            width: 380px;
+            height: 640px;
+            z-index: 2;
+            text-align: center;
+            border-radius: var(--br-5xs);
+            /* padding: 20px; */
+            box-sizing: border-box;
+        }
+
+        .popup .close-btn
+        {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width: 30px;
+            height: 30px;
+            background: #222;
+            color: #fff;
+            font-size: 25px;
+            font-weight: 600;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .popup.active .overlay{
+            display: block;
+        }
+
+        .popup.active .content
+        {
+            transition: all 300ms ease-in-out ;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .logo .needle{
+          position: absolute;
+          height: 105px;
+          top: 122px;
+          left: 178px;
+          display: inline-block;
+
+        }
+        .logo .needle.active{ 
+          -webkit-animation:move 5s ease-out;
+          transform:rotate(var(--assigned));
+          transform-origin:bottom;
+        }
+
+.background-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--br-5xs);
+  width: 380px;
+  height: 640px;
+  overflow: hidden;
+}
+.done-button-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 31px;
+  background-color: #fd2222;
+  box-shadow: 1px 1px 11px rgba(0, 0, 0, 0.25) inset;
+  width: 22px;
+  height: 22.55px;
+  cursor: pointer;
+
+}
+.done-button {
+  top: 7px;
+  left: 0;
+  width: 22px;
+  height: 22.55px;
+}
+.done-button, .shine-icon, .x
+{
+  position: absolute;
+}
+.shine-icon {
+  height: 35.42%;
+  width: 54.43%;
+  top: 27.51%;
+  right: 45.57%;
+  bottom: 37.08%;
+  left: 0;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  mix-blend-mode: screen;
+}
+.x {
+  top: 0;
+  left: 5px;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  width: 9px;
+  height: 8px;
+  cursor: pointer;
+}
+.cross-button, .green-label-icon {
+  position: absolute;
+  top: 0;
+  left: 332px;
+  width: 22px;
+  height: 29.55px;
+}
+.green-label-icon {
+  left: 2.8%;
+  width: 301px;
+  height: 110px;
+}
+.level-up-your {
+  position: absolute;
+  top: 38px;
+  left: 22px;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  width: 279px;
+}
+.green-panel {
+  position: absolute;
+  top: 387px;
+  left: 30px;
+  width: 301px;
+  height: 110px;
+  font-size: 16.91px;
+  color: var(--color-darkslategray);
+  font-family: var(--font-days-one);
+}
+.stress-label-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  background-color: #f80808;
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.91);
+  border: 1px solid var(--color-white);
+  box-sizing: border-box;
+  width: 107px;
+  height: 46px;
+}
+.stress-emoji-icon {
+  position: absolute;
+  height: 58.7%;
+  width: 27.1%;
+  top: 17.39%;
+  right: 11.21%;
+  bottom: 23.91%;
+  left: 61.68%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.div {
+  position: absolute;
+  top: 7px;
+  left: 18%;
+  letter-spacing: 0.01em;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+.stress-label {
+  position: absolute;
+  top: 368px;
+  left: 129px;
+  width: 107px;
+  height: 46px;
+  font-size: 21.91px;
+}
+.color-icon {
+  position: absolute;
+  top: 0.36px;
+  left: 2%;
+  width: 358px;
+  height: 190px;
+}
+
+.div1,
+.div2,
+.div3,
+.div4,
+.div5 {
+  position: absolute;
+  top: 126px;
+  left: 0;
+  letter-spacing: 0.01em;
+  
+}
+.div2,
+.div3,
+.div4,
+.div5 {
+  top: 0;
+  left: 116px;
+}
+.div3,
+.div4,
+.div5 {
+  top: 45px;
+  left: 19px;
+}
+.div4,
+.div5 {
+  top: 126px;
+  left: 228px;
+}
+.div5 {
+  top: 42px;
+  left: 203px;
+}
+.stress-percentage {
+  position: absolute;
+  top: 47.36px;
+  left: 52px;
+  width: 260px;
+  height: 143px;
+}
+.div7 {
+  position: absolute;
+  top: 36.2px;
+  left: 0;
+  letter-spacing: 0.01em;
+  transform: rotate(-74.82deg);
+  transform-origin: 0 0;
+}
+.coin-3-icon {
+  top: 0;
+  left: 7px;
+  width: 13px;
+  height: 13px;
+  object-fit: cover;
+}
+.coin-3-icon,
+.div6,
+.div9 {
+  position: absolute;
+}
+.div6 {
+  top: 84px;
+  left: 0;
+  width: 20px;
+  height: 39.86px;
+}
+.div9 {
+  top: 11.33px;
+  left: 2.06px;
+  letter-spacing: 0.01em;
+  transform: rotate(-104.91deg);
+  transform-origin: 0 0;
+}
+.coin-4-icon {
+  top: 14px;
+  left: 7.06px;
+  width: 13px;
+  height: 13px;
+  object-fit: cover;
+}
+.coin-4-icon,
+.div11,
+.div8 {
+  position: absolute;
+}
+.div8 {
+  top: 86px;
+  left: 281.94px;
+  width: 20.06px;
+  height: 27px;
+}
+.div11 {
+  top: 0;
+  left: 7.64px;
+  letter-spacing: 0.01em;
+  transform: rotate(33.07deg);
+  transform-origin: 0 0;
+}
+.coin-5-icon {
+  top: 17px;
+  left: 24px;
+  width: 13px;
+  height: 13px;
+  object-fit: cover;
+}
+.coin-5-icon,
+.div10,
+.div13 {
+  position: absolute;
+}
+.div10 {
+  top: 1px;
+  left: 205px;
+  width: 37px;
+  height: 30px;
+}
+.div13 {
+  top: 18.14px;
+  left: 0;
+  letter-spacing: 0.01em;
+  transform: rotate(-32.2deg);
+  transform-origin: 0 0;
+}
+.coin-6-icon {
+  position: absolute;
+  top: 0;
+  left: 26.69px;
+  width: 13px;
+  height: 13px;
+  object-fit: cover;
+}
+.coins,
+.div12 {
+  position: absolute;
+  top: 0;
+  left: 67.31px;
+  width: 39.69px;
+  height: 29.98px;
+}
+.coins {
+  top: 25.36px;
+  left: 21px;
+  width: 302px;
+  height: 123.86px;
+  font-family: var(--font-chivo);
+}
+.partition-child,
+.partition-inner,
+.partition-item {
+  position: absolute;
+  top: 68.36px;
+  left: 7.11px;
+  background-color: var(--color-gold);
+  width: 35px;
+  height: 12px;
+  transform: rotate(36.32deg);
+  transform-origin: 0 0;
+}
+.partition-inner,
+.partition-item {
+  top: 85.18px;
+  left: 252px;
+  transform: rotate(-34.51deg);
+}
+.partition-inner {
+  top: 0.11px;
+  left: 152.82px;
+  transform: rotate(90.53deg);
+}
+.partition,
+.stress-meter {
+  position: absolute;
+  top: 0;
+  left: 31px;
+  width: 282.64px;
+  height: 98.75px;
+}
+.stress-meter {
+  top: 125.64px;
+  left: 8px;
+  width: 358px;
+  height: 190.36px;
+  font-size: 11.91px;
+  color: var(--color-black);
+  font-family: var(--font-coda);
+}
+
+
+/* .arrow-handel-icon,
+.emoji-hourglass-with-flowing {
+  position: absolute;
+  height: 17.77%;
+  width: 31.86%;
+  top: 37.81%;
+  right: 21.12%;
+  bottom: 44.42%;
+  left: 47.02%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+} */
+
+.arrow-handel-icon,
+.emoji-hourglass-with-flowing {
+  position: relative;
+  height: auto;
+  width: auto;
+  top: 160px;
+  /* right: 2.87%; */
+  bottom: 49.28%;
+  left: 45.5%;
+}
+
+.arrow-point-icon 
+{
+  position: absolute;
+  height: 105px;
+  top: 122px;
+  left: 51.5%;
+}
+
+.arrow-point-icon.active{
+  -webkit-animation:move 5s ease-in-out;
+  transform:rotate(var(--assigned));
+  transform-origin: left;
+}
+
+@-webkit-keyframes move{
+  from{transform:rotate(var(--completed));}
+  to{transform: rotate(var(--assigned));}
+}
+
+.timer {
+  position: relative;
+  height: 3%;
+  width: 17.5%;
+  top: 540px;
+  /* right: 79.11%; */
+  bottom: 5.16%;
+  left: 43.39%;
+  text-align: center;
+  font-size: 12.91px;
+}
+
+.emoji-hourglass-with-flowing {
+  position: relative;
+  text-align: center;
+  height: 60px;
+  width: 50.81%;
+  top: 50px;
+  /* right: 76.19%; */
+  bottom: 25%;
+  left: -35px;
+}
+
+.div14.active {
+  top: 0;
+  left: 20px;
+  letter-spacing: 0.01em;
+}
+
+
+.group-icon,
+.vector-icon {
+  width: 91.3%;
+  top: 11.48%;
+  right: 4.35%;
+  left: 4.35%;
+}
+.group-icon {
+  position: absolute;
+  height: 85.62%;
+  bottom: 2.9%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0.7;
+  mix-blend-mode: multiply;
+}
+.vector-icon {
+  height: 77.15%;
+  bottom: 11.37%;
+}
+
+.group-icon1,
+.group-icon2,
+.vector-icon,
+.vector-icon1 {
+  position: absolute;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.group-icon1 {
+  height: 77.04%;
+  width: 91.74%;
+  top: 12.02%;
+  right: 3.91%;
+  bottom: 10.94%;
+  left: 4.35%;
+  opacity: 0.64;
+  mix-blend-mode: screen;
+}
+
+.group-icon, .group-icon1, .vector-icon, .vector-icon1, .claim {
+      display: inline-block;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .group-icon:hover, .group-icon1:hover, .vector-icon:hover, .vector-icon1:hover, .claim:hover {
+      transform: scale(1.1);
+    }
+
+.group-icon2,
+.vector-icon1 {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.vector-icon1 {
+  opacity: 0.05;
+}
+.group-icon2 {
+  mix-blend-mode: screen;
+}
+.group-icon3 {
+  height: 50.02%;
+  width: 18.71%;
+  top: 5.06%;
+  right: 78.19%;
+  bottom: 44.92%;
+  left: 3.1%;
+  opacity: 0.2;
+}
+.group-icon3,
+.group-icon4,
+.group-icon5,
+.group-icon6,
+.shine-icon1 {
+  position: absolute;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.shine-icon1 {
+  height: 29.01%;
+  width: 14.23%;
+  top: 17.31%;
+  right: 78.47%;
+  bottom: 53.68%;
+  left: 7.3%;
+  mix-blend-mode: screen;
+}
+.group-icon4,
+.group-icon5,
+.group-icon6 {
+  height: 11.23%;
+  width: 3.08%;
+  top: 37.16%;
+  right: 90.08%;
+  bottom: 51.61%;
+  left: 6.84%;
+  opacity: 0.01;
+}
+.group-icon5,
+.group-icon6 {
+  height: 9.98%;
+  width: 2.71%;
+  top: 37.79%;
+  right: 90.26%;
+  bottom: 52.23%;
+  left: 7.02%;
+  opacity: 0.03;
+}
+.group-icon6 {
+  height: 8.83%;
+  width: 2.42%;
+  top: 38.36%;
+  right: 90.41%;
+  bottom: 52.81%;
+  left: 7.17%;
+  opacity: 0.05;
+}
+.group-icon10,
+.group-icon11,
+.group-icon12,
+.group-icon7,
+.group-icon8,
+.group-icon9 {
+  position: absolute;
+  height: 8.25%;
+  width: 2.22%;
+  top: 38.65%;
+  right: 90.51%;
+  bottom: 53.1%;
+  left: 7.27%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0.1;
+}
+.group-icon10,
+.group-icon11,
+.group-icon12,
+.group-icon8,
+.group-icon9 {
+  height: 7.58%;
+  width: 2.05%;
+  top: 38.99%;
+  right: 90.6%;
+  bottom: 53.43%;
+  left: 7.35%;
+}
+.group-icon10,
+.group-icon11,
+.group-icon12,
+.group-icon9 {
+  height: 7.1%;
+  width: 1.92%;
+  top: 39.23%;
+  right: 90.66%;
+  bottom: 53.67%;
+  left: 7.42%;
+}
+.group-icon10,
+.group-icon11,
+.group-icon12 {
+  height: 6.91%;
+  width: 1.89%;
+  top: 39.32%;
+  right: 90.68%;
+  bottom: 53.77%;
+  left: 7.43%;
+}
+.group-icon11,
+.group-icon12 {
+  height: 6.43%;
+  width: 1.75%;
+  top: 39.56%;
+  right: 90.74%;
+  bottom: 54.01%;
+  left: 7.5%;
+}
+.group-icon12 {
+  height: 6.12%;
+  width: 1.62%;
+  top: 39.8%;
+  right: 90.81%;
+  bottom: 54.08%;
+  left: 7.57%;
+}
+.group-icon13,
+.group-icon14,
+.group-icon15,
+.group-icon16,
+.group-icon17,
+.group-icon18 {
+  position: absolute;
+  height: 5.66%;
+  width: 1.52%;
+  top: 39.94%;
+  right: 90.86%;
+  bottom: 54.39%;
+  left: 7.62%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0.1;
+}
+.group-icon14,
+.group-icon15,
+.group-icon16,
+.group-icon17,
+.group-icon18 {
+  height: 5.47%;
+  width: 1.49%;
+  top: 40.04%;
+  right: 90.88%;
+  bottom: 54.49%;
+  left: 7.63%;
+}
+.group-icon15,
+.group-icon16,
+.group-icon17,
+.group-icon18 {
+  height: 4.99%;
+  width: 1.36%;
+  top: 40.28%;
+  right: 90.94%;
+  bottom: 54.73%;
+  left: 7.7%;
+}
+.group-icon16,
+.group-icon17,
+.group-icon18 {
+  height: 4.7%;
+  width: 1.26%;
+  top: 40.42%;
+  right: 90.99%;
+  bottom: 54.87%;
+  left: 7.75%;
+  opacity: 0.2;
+}
+.group-icon17,
+.group-icon18 {
+  height: 4.32%;
+  width: 1.19%;
+  top: 40.62%;
+  right: 91.03%;
+  bottom: 55.06%;
+  left: 7.78%;
+  opacity: 0.3;
+}
+.group-icon18 {
+  height: 6.97%;
+  width: 2.31%;
+  top: 66.31%;
+  right: 7.66%;
+  bottom: 26.72%;
+  left: 90.03%;
+  opacity: 0.01;
+}
+.group-icon19,
+.group-icon20,
+.group-icon21,
+.group-icon22,
+.group-icon23 {
+  position: absolute;
+  height: 6.01%;
+  width: 2.09%;
+  top: 66.74%;
+  right: 7.81%;
+  bottom: 27.25%;
+  left: 90.1%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0.03;
+}
+.group-icon20,
+.group-icon21,
+.group-icon22,
+.group-icon23 {
+  height: 5.15%;
+  width: 1.94%;
+  top: 67.06%;
+  right: 7.92%;
+  bottom: 27.79%;
+  left: 90.14%;
+  opacity: 0.05;
+}
+.group-icon21,
+.group-icon22,
+.group-icon23 {
+  height: 4.94%;
+  width: 1.67%;
+  right: 7.99%;
+  bottom: 28%;
+  left: 90.33%;
+  opacity: 0.1;
+}
+.group-icon22,
+.group-icon23 {
+  height: 4.51%;
+  width: 1.6%;
+  top: 67.38%;
+  bottom: 28.11%;
+  left: 90.41%;
+}
+.group-icon23 {
+  height: 4.29%;
+  width: 1.49%;
+  top: 67.49%;
+  right: 8.07%;
+  bottom: 28.22%;
+  left: 90.44%;
+}
+.group-icon24,
+.group-icon25,
+.group-icon26,
+.group-icon27,
+.group-icon28,
+.group-icon29 {
+  position: absolute;
+  height: 4.08%;
+  width: 1.41%;
+  top: 67.6%;
+  right: 8.1%;
+  bottom: 28.33%;
+  left: 90.48%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0.1;
+}
+.group-icon25,
+.group-icon26,
+.group-icon27,
+.group-icon28,
+.group-icon29 {
+  height: 3.76%;
+  width: 1.3%;
+  top: 67.7%;
+  right: 8.14%;
+  bottom: 28.54%;
+  left: 90.56%;
+}
+.group-icon26,
+.group-icon27,
+.group-icon28,
+.group-icon29 {
+  height: 3.86%;
+  width: 1.23%;
+  top: 67.49%;
+  right: 8.22%;
+  bottom: 28.65%;
+}
+.group-icon27,
+.group-icon28,
+.group-icon29 {
+  height: 3.43%;
+  width: 1.19%;
+  top: 67.92%;
+  left: 90.59%;
+}
+.group-icon28,
+.group-icon29 {
+  height: 3.22%;
+  width: 1.15%;
+  top: 68.03%;
+  right: 8.21%;
+  bottom: 28.76%;
+  left: 90.63%;
+}
+.group-icon29 {
+  height: 3.11%;
+  width: 1.06%;
+  right: 8.29%;
+  bottom: 28.86%;
+  left: 90.65%;
+}
+.group-icon30,
+.group-icon31,
+.group-icon32,
+.group-icon33,
+.group-icon34 {
+  position: absolute;
+  height: 3.22%;
+  width: 1.08%;
+  top: 67.81%;
+  right: 8.33%;
+  bottom: 28.97%;
+  left: 90.59%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0.2;
+}
+.group-icon31,
+.group-icon32,
+.group-icon33,
+.group-icon34 {
+  height: 2.9%;
+  width: 0.89%;
+  top: 68.35%;
+  right: 8.36%;
+  bottom: 28.76%;
+  left: 90.74%;
+  opacity: 0.3;
+}
+.group-icon32,
+.group-icon33,
+.group-icon34 {
+  height: 17.38%;
+  width: 6.71%;
+  top: 69.57%;
+  right: 8.54%;
+  bottom: 13.05%;
+  left: 84.75%;
+  opacity: 0.01;
+}
+.group-icon33,
+.group-icon34 {
+  height: 15.4%;
+  width: 5.95%;
+  top: 70.56%;
+  right: 8.92%;
+  bottom: 14.04%;
+  left: 85.13%;
+  opacity: 0.03;
+}
+.group-icon34 {
+  height: 13.71%;
+  width: 5.29%;
+  top: 71.4%;
+  right: 9.25%;
+  bottom: 14.88%;
+  left: 85.46%;
+  opacity: 0.05;
+}
+.group-icon35,
+.group-icon36,
+.group-icon37,
+.group-icon38,
+.group-icon39 {
+  position: absolute;
+  height: 12.87%;
+  width: 4.96%;
+  top: 71.82%;
+  right: 9.42%;
+  bottom: 15.31%;
+  left: 85.62%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0.1;
+}
+.group-icon36,
+.group-icon37,
+.group-icon38,
+.group-icon39 {
+  height: 12.03%;
+  width: 4.63%;
+  top: 72.24%;
+  right: 9.58%;
+  bottom: 15.73%;
+  left: 85.79%;
+}
+.group-icon37,
+.group-icon38,
+.group-icon39 {
+  height: 11.31%;
+  width: 4.36%;
+  top: 72.6%;
+  right: 9.72%;
+  bottom: 16.09%;
+  left: 85.92%;
+}
+.group-icon38,
+.group-icon39 {
+  height: 10.59%;
+  width: 4.09%;
+  top: 72.96%;
+  right: 9.85%;
+  bottom: 16.45%;
+  left: 86.06%;
+}
+.group-icon39 {
+  height: 10.04%;
+  width: 3.87%;
+  top: 73.24%;
+  right: 9.96%;
+  bottom: 16.72%;
+  left: 86.17%;
+}
+.group-icon40,
+.group-icon41,
+.group-icon42,
+.group-icon43,
+.group-icon44,
+.group-icon45 {
+  position: absolute;
+  height: 9.31%;
+  width: 3.6%;
+  top: 73.96%;
+  right: 10.19%;
+  bottom: 16.73%;
+  left: 86.21%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0.1;
+}
+.group-icon41,
+.group-icon42,
+.group-icon43,
+.group-icon44,
+.group-icon45 {
+  height: 8.9%;
+  width: 3.44%;
+  top: 73.81%;
+  right: 10.18%;
+  bottom: 17.29%;
+  left: 86.38%;
+}
+.group-icon42,
+.group-icon43,
+.group-icon44,
+.group-icon45 {
+  height: 8.34%;
+  width: 3.21%;
+  top: 74.44%;
+  right: 10.39%;
+  bottom: 17.21%;
+  left: 86.41%;
+}
+.group-icon43,
+.group-icon44,
+.group-icon45 {
+  height: 7.94%;
+  width: 3.05%;
+  top: 74.29%;
+  right: 10.37%;
+  bottom: 17.77%;
+  left: 86.58%;
+}
+.group-icon44,
+.group-icon45 {
+  height: 7.22%;
+  width: 2.78%;
+  top: 74.65%;
+  right: 10.51%;
+  bottom: 18.13%;
+  left: 86.71%;
+  opacity: 0.2;
+}
+.group-icon45 {
+  height: 6.8%;
+  width: 2.61%;
+  top: 74.86%;
+  right: 10.59%;
+  bottom: 18.34%;
+  left: 86.8%;
+  opacity: 0.3;
+}
+
+.claim {
+  position: relative;
+  height: 51.56%;
+  width: 65.75%;
+  top: 18.75%;
+  left: 21.55%;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  -webkit-text-stroke: 1.2px #fdd622;
+}
+
+.claim-button {
+  position: relative;
+  height: 10%;
+  width: 39.17%;
+  top: 80.47%;
+  right: 29.17%;
+  bottom: 9.53%;
+  left: 31.67%;
+  font-size: 30.91px;
+}
+.play-your-way,
+.stress-level {
+  position: absolute;
+  top: 320px;
+  left: 120px;
+  font-size: 23.91px;
+  letter-spacing: 0.01em;
+  font-family: var(--font-dm-sans);
+  color: var(--color-darkslategray);
+}
+.play-your-way {
+  top: 96px;
+  left: 90px;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+.stress-o-meter {
+  position: absolute;
+  top: 36px;
+  left: 10px;
+  font-size: 41px;
+  letter-spacing: 0.02em;
+  font-family: var(--font-kavoon);
+  text-shadow: 0 4px 4px #000;
+  -webkit-text-stroke: 1px rgba(255, 100, 100, 0.2);
+}
+.android-small-1 {
+  position: relative;
+  border-radius: var(--br-5xs);
+  background-color: var(--color-white);
+  width: 380px;
+  height: 640px;
+  overflow: hidden;
+  text-align: left;
+  font-size: 22.91px;
+  color: var(--color-white);
+  font-family: var(--font-baloo-thambi);
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="popup" id="popup-1">
+        <div class="overlay"></div>
+        <div class="content">
+            <div class="android-small-1">
+                <img class="background-icon" alt="" src="./background.png" />
+          
+                <div class="cross-button">
+                  <div class="done-button">
+                    <div class="done-button-child"></div>
+                  </div>
+                  <img class="shine-icon" alt="" src="./shine.png" />
+          
+                  <div class="x" onclick="popOff()">x</div>
+                </div>
+                <div class="green-panel">
+                  <img class="green-label-icon" alt="" src="./green-label.png" />
+          
+                  <div class="level-up-your">
+                    Level up your fun and coins: Game on to beat stress!
+                  </div>
+                </div>
+                <div class="stress-label">
+                  <div class="stress-label-child" id="stress-label-child"></div>
+                  <div id="stress-emoji-icon" class="stress-emoji-icon">
+                    
+                  </div>
+          
+                  <div id="div" class="div"></div>
+                </div>
+                <div class="stress-meter">
+                  <img class="color-icon" alt="" src="./stress meter.png" />
+          
+                  <!-- <div class="stress-percentage">
+                    <div class="div1">0%</div>
+                    <div class="div2">50%</div>
+                    <div class="div3">25%</div>
+                    <div class="div4">100%</div>
+                    <div class="div5">75%</div>
+                  </div>
+                  <div class="coins">
+                    <div class="div6">
+                      <div class="div7">500</div>
+                      <img class="coin-3-icon" alt="" src="./coin-3@2x.png" />
+                    </div>
+                    <div class="div8">
+                      <div class="div9">0</div>
+                      <img class="coin-4-icon" alt="" src="./coin-3@2x.png" />
+                    </div>
+                    <div class="div10">
+                      <div class="div11">100</div>
+                      <img class="coin-5-icon" alt="" src="./coin-3@2x.png" />
+                    </div>
+                    <div class="div12">
+                      <div class="div13">300</div>
+                      <img class="coin-6-icon" alt="" src="./coin-3@2x.png" />
+                    </div>
+                  </div>
+                  <div class="partition">
+                    <div class="partition-child"></div>
+                    <div class="partition-item"></div>
+                    <div class="partition-inner"></div>
+                  </div> -->
+
+                  <img id="arrow-point-icon" class="arrow-point-icon  " alt="" src="./arrowp.png" >
+                  <div class="arrow-point-icon" src="./arrow-point.png"></div>
+                  <img class="arrow-handel-icon" alt="" src="./arrow-handel.png" />
+                </div>
+
+                <div class="timer">
+                  <img
+                    class="emoji-hourglass-with-flowing"
+                    alt=""
+                    src="./-emoji-hourglass-with-flowing-sand.png"
+                  />
+          
+                  <div id="div14"class="div14"></div>
+                </div>
+                <div class="claim-button">
+                
+                  <img class="group-icon" alt="" src="./group.png" />
+          
+                  <img class="vector-icon" alt="" src="./vector.png" />
+          
+                  <img class="group-icon1" alt="" src="./group1.png" />
+          
+                  <img class="vector-icon1" alt="" src="./vector1.png" />
+                
+          
+                  <img class="group-icon2" alt="" src="./group2.png" />
+          
+                  <img class="group-icon3" alt="" src="./group3.png" />
+          
+                  <img class="shine-icon1" alt="" src="./shine1.png" />
+          
+                  <img class="group-icon4" alt="" src="./group6.png" />
+          
+                  <img class="group-icon5" alt="" src="./group6.png" />
+          
+                  <img class="group-icon6" alt="" src="./group6.png" />
+          
+                  <img class="group-icon7" alt="" src="./group7.png" />
+          
+                  <img class="group-icon8" alt="" src="./group8.png" />
+          
+                  <img class="group-icon9" alt="" src="./group9.png" />
+          
+                  <img class="group-icon10" alt="" src="./group10.png" />
+          
+                  <img class="group-icon11" alt="" src="./group11.png" />
+          
+                  <img class="group-icon12" alt="" src="./group12.png" />
+          
+                  <img class="group-icon13" alt="" src="./group13.png" />
+          
+                  <img class="group-icon14" alt="" src="./group14.png" />
+          
+                  <img class="group-icon15" alt="" src="./group15.png" />
+          
+                  <img class="group-icon16" alt="" src="./group16.png" />
+          
+                  <img class="group-icon17" alt="" src="./group17.png" />
+          
+                  <img class="group-icon18" alt="" src="./group17.png" />
+          
+                  <img class="group-icon19" alt="" src="./group17.png" />
+          
+                  <img class="group-icon20" alt="" src="./group20.png" />
+          
+                  <img class="group-icon21" alt="" src="./group21.png" />
+          
+                  <img class="group-icon22" alt="" src="./group22.png" />
+          
+                  <img class="group-icon23" alt="" src="./group23.png" />
+          
+                  <img class="group-icon24" alt="" src="./group24.png" />
+          
+                  <img class="group-icon25" alt="" src="./group25.png" />
+          
+                  <img class="group-icon26" alt="" src="./group26.png" />
+          
+                  <img class="group-icon27" alt="" src="./group27.png" />
+          
+                  <img class="group-icon28" alt="" src="./group28.png" />
+          
+                  <img class="group-icon29" alt="" src="./group29.png" />
+          
+                  <img class="group-icon30" alt="" src="./group30.png" />
+          
+                  <img class="group-icon31" alt="" src="./group31.png" />
+          
+                  <img class="group-icon32" alt="" src="./group31.png" />
+          
+                  <img class="group-icon33" alt="" src="./group31.png" />
+          
+                  <img class="group-icon34" alt="" src="./group34.png" />
+          
+                  <img class="group-icon35" alt="" src="./group35.png" />
+          
+                  <img class="group-icon36" alt="" src="./group36.png" />
+          
+                  <img class="group-icon37" alt="" src="./group37.png" />
+          
+                  <img class="group-icon38" alt="" src="./group38.png" />
+          
+                  <img class="group-icon39" alt="" src="./group39.png" />
+          
+                  <img class="group-icon40" alt="" src="./group40.png" />
+          
+                  <img class="group-icon41" alt="" src="./group41.png" />
+          
+                  <img class="group-icon42" alt="" src="./group42.png" />
+          
+                  <img class="group-icon43" alt="" src="./group43.png" />
+          
+                  <img class="group-icon44" alt="" src="./group44.png" />
+          
+                  <img class="group-icon45" alt="" src="./group45.png" />
+          
+                  <div class="claim">Claim</div>
+                </div>
+                <b class="stress-level">stress level</b>
+                <b class="play-your-way">Play Your Way to Peace!</b>
+                <div class="stress-o-meter">Stress -O- Meter</div>
+              </div>
+        </div>
+    </div>
+    <button onclick="togglePopUp()">Show Popup</button>
+  <script>
+        function popOff() {
+            document.getElementById("popup-1").classList.remove("active");
+
+            document.getElementById("arrow-point-icon").classList.remove("active");
+        }
+
+        function togglePopUp()
+        {
+            document.getElementById("popup-1").classList.add("active");
+            document.getElementById("arrow-point-icon").classList.add("active");
+            document.getElementById("div14").classList.add("active");
+        
+            stress();
+        }
+
+     function stress(){
+          var dataTotal=8;
+          var nextdata=8;
+          var mark = 1;
+          var next = 6;
+
+    if(mark<next) {
+        prev=mark;
+        mark=next;
+
+        prevdata=dataTotal;
+        dataTotal=nextdata;
+
+        console.log(prev)
+        console.log(mark)
+        
+        var stress=Math.ceil((1-(mark/dataTotal))*100);
+        console.log(stress);
+
+        var stress1=Math.ceil((1-(prev/dataTotal))*100);
+        console.log(stress1)
+
+        /* document.getElementById('stress').innerHTML=stress+"%"; */
+
+        var angle = (stress)*1.8;
+        var angle1=(stress1)*1.8;
+
+        console.log(angle);
+        console.log(angle1);
+    
+        var assigned=-(180-angle);
+        var completed=-(180-angle1);
+
+        var durangle = Math.abs(stress-stress1);
+        console.log(durangle)
+
+        document.documentElement.style.setProperty('--assigned', assigned+'deg');
+
+        console.log(--assigned)
+
+        document.documentElement.style.setProperty('--completed', completed+'deg');
+
+        console.log(--completed)
+        
+        let valueDisplays=document.querySelectorAll("#div");
+        let final=stress;
+        valueDisplays.forEach((valueDisplay)=>{
+            let start = stress1;
+            let end   = stress ;
+            
+            console.log(durangle)
+            let duration = (5000/(durangle))-5;
+            console.log(duration);
+            let counter =setInterval(function(){
+                // console.log('here')
+                start -=1;
+                if(stress<25){
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src='./emoji0.png'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#41cd05";
+
+                }
+                else if(stress>=25 && stress<50)
+                {
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src='./emoji25.png'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#f8e108";
+
+                }
+                else if(stress>=50 && stress<75)
+                {
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src=\'stress-emoji.png\'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#f86508";
+                }
+                else{
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src='/emoji100.png'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#f80808";
+                }
+                if(start==end){
+                    clearInterval(counter);
+                }
+            },duration);
+
+        })
+    }
+    else if (mark>next){
+
+        prev=mark;
+        mark=next;
+
+        prevdata=dataTotal;
+        dataTotal=nextdata;
+
+        var stress=Math.ceil((1-(prev/dataTotal))*100);
+        console.log(stress);
+
+        var stress1=Math.ceil((1-(mark/dataTotal))*100);
+        console.log(stress1)
+        console.log(dataTotal)
+        
+        var angle = (stress)*1.8;
+        var angle1=(stress1)*1.8;
+
+        var durangle = Math.abs(stress-stress1);
+        console.log(durangle)
+
+        var assigned=-(180-angle);
+        var completed=-(180-angle1);
+
+        document.documentElement.style.setProperty('--assigned', completed+'deg');
+
+        console.log(--assigned)
+
+        document.documentElement.style.setProperty('--completed', assigned+'deg');
+
+        console.log(--completed)
+        
+        let valueDisplays=document.querySelectorAll("#div");
+        let final=stress1;
+        valueDisplays.forEach((valueDisplay)=>{
+            let start = stress;
+            let end   = stress1 ;
+            let duration = (5000/(durangle)+5);
+            console.log(duration);
+
+            let counter =setInterval(function(){
+                start +=1;
+                if(stress<25){
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src='./emoji0.png'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#41cd05";
+
+                }
+                else if(stress>=25 && stress<50)
+                {
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src='./emoji25.png'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#f8e108";
+
+                }
+                else if(stress>=50 && stress<75)
+                {
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src=\'stress-emoji.png\'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#f86508";
+                }
+                else{
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src='/emoji100.png'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#f80808";
+                }
+                if(start==end){
+                    clearInterval(counter);
+                }
+            },duration)
+        });
+    }
+    else{
+
+        prev=mark;
+        mark=next;
+
+        prevdata=dataTotal;
+        dataTotal=nextdata;
+
+        var stress=Math.ceil((1-(prev/prevdata))*100);
+        console.log(stress);
+
+        var stress1=Math.ceil((1-(mark/dataTotal))*100);
+        console.log(stress1)
+
+        var angle = (stress)*1.8;
+        var angle1=(stress1)*1.8;
+
+        var assigned=-(180-angle1);
+        var completed=-(180-angle);
+
+        var durangle = Math.abs(stress-stress1);
+        console.log(durangle)
+        document.documentElement.style.setProperty('--assigned', assigned+'deg');
+
+        document.documentElement.style.setProperty('--completed', completed+'deg');
+
+        let valueDisplays=document.querySelectorAll("#div");
+        let final=stress1;
+        valueDisplays.forEach((valueDisplay)=>{
+            let start = stress;
+            let end   = stress1 ;
+            let duration = (5000/(durangle))-5;
+            console.log(duration);
+            let counter =setInterval(function(){
+                // start +=1;
+                if(stress<25){
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src='./emoji0.png'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#41cd05";
+
+                }
+                else if(stress>=25 && stress<50)
+                {
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src='./emoji25.png'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#f8e108";
+
+                }
+                else if(stress>=50 && stress<75)
+                {
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src=\'stress-emoji.png\'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#f86508";
+                }
+                else{
+                  valueDisplay.textContent=start +"%";
+                  document.getElementById('stress-emoji-icon').innerHTML="<img src='/emoji100.png'>";
+
+                  document.getElementById('stress-label-child').style.backgroundColor="#f80808";
+                }
+              valueDisplay.textContent=start+'%';
+                if(start==end){
+                    clearInterval(counter);
+                }
+            },duration)
+        });
+        }
+    }
+
+    // Set the initial time to 24 hours in seconds
+    let remainingTime = 24 * 60 * 60; // 24 hours * 60 minutes * 60 seconds
+
+    // Function to update the timer display
+    function updateTimerDisplay() {
+      const hours = Math.floor(remainingTime / 3600);
+      const minutes = Math.floor((remainingTime % 3600) / 60);
+      const seconds = remainingTime % 60;
+
+      const formattedTime = `${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+      document.getElementById('div14').textContent = formattedTime;
+    }
+
+    // Function to decrement the timer
+    function decrementTimer() {
+      if (remainingTime > 0) {
+        remainingTime--;
+        updateTimerDisplay();
+      }
+    }
+
+    // Start the timer
+    updateTimerDisplay();
+    const timerInterval = setInterval(decrementTimer, 1000); // Decrement timer every 1 second
+
+    </script>
+</body>
+</html>
